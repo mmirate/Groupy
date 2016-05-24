@@ -186,6 +186,43 @@ class Groups(Endpoint):
         )
         return cls.response(r)
 
+    @classmethod
+    def mute(cls, group_id):
+        """Globally ignore all web+mobile notifications from a group.
+
+        :param str group_id: the ID of the group to mute
+        :rtype: :class:`dict`
+        """
+        r = requests.post(
+            cls.build_url('{}/memberships/mute', group_id)
+        )
+        return cls.response(r)
+
+    @classmethod
+    def unmute(cls, group_id):
+        """Globally un-ignore all web+mobile notifications from a group.
+
+        :param str group_id: the ID of the group to unmute
+        :rtype: :class:`dict`
+        """
+        r = requests.post(
+            cls.build_url('{}/memberships/activate', group_id)
+        )
+        return cls.response(r)
+
+    @classmethod
+    def renick(cls, group_id, newnickname):
+        """Change your nickname in a group.
+
+        :param str group_id: the ID of the group in which to renick
+        :param str newnickname: your new nickname
+        :rtype: :class:`dict`
+        """
+        r = requests.post(
+            cls.build_url('{}/memberships/update', group_id),
+            data=json.dumps({"membership": {"nickname": newnickname}})
+        )
+        return cls.response(r)
 
 class Members(Endpoint):
     """Endpoint for the members API.

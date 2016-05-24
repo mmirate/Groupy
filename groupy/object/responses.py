@@ -246,6 +246,52 @@ class Group(Recipient):
             return e.args[0]['code']
         return True
 
+    def mute(self):
+        """Ignore all web+mobile notifications from a group.
+
+        If unsuccessful, this raises an :exc:`~groupy.api.errors.ApiError`
+
+        :returns: :data:`~groupy.api.status.OK`
+        """
+        try:
+            endpoint.Groups.mute(self.group_id)
+        except errors.ApiError as e:
+            if e.args[0]['code'] != status.OK:
+                raise
+            return e.args[0]['code']
+        return True
+
+    def unmute(self):
+        """Un-ignore all web+mobile notifications from a group.
+
+        If unsuccessful, this raises an :exc:`~groupy.api.errors.ApiError`
+
+        :returns: :data:`~groupy.api.status.OK`
+        """
+        try:
+            endpoint.Groups.unmute(self.group_id)
+        except errors.ApiError as e:
+            if e.args[0]['code'] != status.OK:
+                raise
+            return e.args[0]['code']
+        return True
+
+    def renick(self, newnickname):
+        """Change your own nickname in a group.
+
+        If unsuccessful, this raises an :exc:`~groupy.api.errors.ApiError`
+
+        :param str newnickname: your new nickname
+        :returns: :data:`~groupy.api.status.OK`
+        """
+        try:
+            endpoint.Groups.renick(self.group_id, newnickname)
+        except errors.ApiError as e:
+            if e.args[0]['code'] != status.OK:
+                raise
+            return e.args[0]['code']
+        return True
+
     def refresh(self):
         """Refresh the group information from the API.
         """
